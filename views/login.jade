@@ -1,0 +1,107 @@
+extends layout
+
+block stylesheets
+    link(rel="stylesheet", href="/stylesheets/login.css")
+block javascripts
+    script(type='text/javascript', src='/javascripts/validate/jquery.validate.min.js')
+    script(type='text/javascript', src='/javascripts/validate/messages_zh.min.js')
+    script(type='text/javascript', src='/javascripts/validate/additional-methods.js')
+    script(type='text/javascript', src='/javascripts/login.js')
+block content
+    include ./common/header
+    include ./common/index
+    +header()
+    .login-box
+        .left-img
+            img(src='images/login/zi.png')
+        a.login-baner(href='#', style='background-image:url(images/login/login-banner.jpg)')
+        .login-main
+            h3#user_switch
+                span.on
+                    i.ico-jt
+                    | 账号登录
+                span
+                    i.ico-jt
+                    | 手机登录
+            // 登录模块 start
+            form#mobileloginform
+                .form-login.slt
+                    .input-box
+                        input.username(type='text', placeholder='请输入用户名',name='loginName')
+                        //label.error(for='') 请输入用户名
+                    .input-box
+                        input.userpwd(type='password', placeholder='请输入6~12位用户密码',name='loginPass')
+                    .input-box
+                        input.yzm-text(type='text', name='checkcode',placeholder='验证码')
+                        .yzm-box
+                            img(src='', alt='')
+                            a(href='javascript:;')
+                                | 看不清，
+                                em 换一张
+                        .cb
+                    .btn-box
+                        input.blue-bg-down#login(type='button', value='登录')
+                    .login-switch
+                        a.forget-pwd(href='/forgetPass') 忘记密码
+                        p
+                            | 不是会员？
+                            a(href='/register') 免费注册
+            // 登录模块 end
+            form#mobileform
+                // 登录模块 end
+                .form-login(style='display:none;')
+                    .input-box
+                        input.username.ico-phone#loginName1(type='text', placeholder='请输入手机号',name='mobile')
+                    .input-box
+                        input.yzm-text(type='text', placeholder='手机验证码',name='checkCode')
+                        input.yzm-btn#yzm-text(type='button', value='获取验证码')
+                        // 不可点击添加no
+                        // <input type="button" value="获取验证码" class="yzm-btn no" />
+                        .cb
+                    .input-box
+                        input.yzm-text(type='text', placeholder='验证码',name='code')
+                        .yzm-box
+                            img(src='images/login/card.jpg', alt='')
+                            a(href='javascript:;')
+                                | 看不清，
+                                em 换一张
+                        .cb
+                    .btn-box
+                        input.blue-bg-down#telLogin(type='button', value='登录')
+                    .login-switch
+                        a.forget-pwd(href='/forgetPass') 忘记密码
+                        p
+                            | 不是会员？
+                            a(href='/register') 免费注册
+                    //
+                      <div class="login-switch">
+                      <p>已有账号？<a href="javascript:;" id="lgn-btn">立即登录</a></p>
+                      </div>
+            // 第三方登录 start
+            //.other-login
+            //    div
+            //        a.QQlogin(href='#', title='用QQ登录')
+            //        a.wechatlogin(href='#', title='用微信登录')
+            //        // <a href="#" class="sinalogin" title="用新浪登录"></a>
+            //// 第三方登录 end
+            //// 第三方登录 start
+            //.other-login
+            //    div
+            //        a.QQlogin(href='#', title='用QQ登录')
+            //        a.wechatlogin(href='#', title='用微信登录')
+            //        // <a href="#" class="sinalogin" title="用新浪登录"></a>
+            // 第三方登录 end
+    include ./common/footer
+    script.
+        $(function () {
+            var winH = $(window).height();
+            var boxH = winH-$('.header').height();
+            $(".login-box").height(boxH+'px');
+
+            $("#user_switch span").hover(function () {
+                $(this).addClass("on").siblings("span").removeClass("on");
+                $(".form-login").hide(0).removeClass('slt');
+                $(".form-login").eq($(this).index()).show(0).addClass('slt');
+            });
+        })
+

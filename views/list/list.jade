@@ -1,0 +1,42 @@
+mixin search(search,sort,module)
+    // 筛选条件
+    .list-filter.mb15
+        for item in search.data
+            .filter-box
+                .hd=item.name
+                .bd
+                    ul
+                        // 点击"a"加class="on"
+                        li
+                            a(href='javascript:;' data-filter='').on 不限
+                        for type in item.list
+                            li
+                                a(href='javascript:;' data-filter=type.id)=type.name
+    .list-sort.bt
+        .sort-bd
+            a(href='javascript:;') 全部
+                input(type="hidden",class='sort-key',value="")
+            for items in sort.data
+                a(href='javascript:;')
+                    span.sort-arr
+                        i.ico-up.select
+                        i.ico-down.select
+                    -var name=items[0].value.slice(0,2);
+                    | #{name}
+                    for item in items
+                        input(type="hidden",class='sort-key',value=item.key)
+        if module==='hotel'
+            .sort-search
+                input#search_parkName.sort-search-txt(type='text', placeholder='请输入酒店名称', value='')
+                input.iconfont.sort-search-submit(type='button', value='')
+            .sort-search.sort-time
+                input#endDate.sort-search-txt(type='text', placeholder='离店时间', value='', readonly='readonly')
+                i.icon-calender
+            .sort-search.sort-time
+                input#beginDate.sort-search-txt(type='text', placeholder='入住时间', value='', readonly='readonly')
+                i.icon-calender
+            #calendar.order-calender.hotel-calendar
+        else
+            .sort-search
+                input#search_parkName.sort-search-txt(type='text', placeholder='请输入关键字', value='')
+                input.iconfont.sort-search-submit(type='button', value='')

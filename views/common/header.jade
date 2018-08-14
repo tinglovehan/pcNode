@@ -1,0 +1,86 @@
+
+mixin header(type,orderTy)
+    .header
+        .top.shadow
+            .headerinnerW
+                // 欢迎语
+                .textL
+                    p
+                        | 欢迎来到黄山电子商务   客服热线: 0559-2580880
+                    a.subscribe(onclick='AddFavorite(window.location,document.title)', href='javascript:;') 收藏
+                    if type!=1
+                        a.subscribe(href='/') 首页
+                // 天气
+                .weatherText
+                    iframe(width='360', scrolling='no', height='24', frameborder='0', allowtransparency='true', src='http://i.tianqi.com/index.php?c=code&id=1&color=%23FFFFFF&icon=1&py=huangshanfengjingqu&wind=0&num=1&site=12')
+                .textR
+                    // 登录注册
+                    .loginText
+                        i.icon.icon-user
+                        //if orderTy=='order'
+                        //    if userinfo.id
+                        //        a(href='/member/info')=userinfo.loginName
+                        //        | |
+                        //        a.loginOut(href='javascript:;') 退出
+                        //        | |
+                        //        a(href='/member/getcoupon') 领取优惠券
+                        //    else
+                        //        a(href='/login') 登录
+                        //        span |
+                        //        a(href='/register') 注册
+                        //        span |
+                        //        a(href='/member/getcoupon') 领取优惠券
+                        //else
+                        if userinfo.id
+                            a(href='/member/info')=userinfo.loginName
+                            | |
+                            a.loginOut(href='javascript:;') 退出
+                            | |
+                            a(href='/member/getcoupon') 领取优惠券
+                        else
+                            a(href='/login') 登录
+                            span |
+                            a(href='/register') 注册
+                            span |
+                            a(href='/member/getcoupon') 领取优惠券
+                    // 购物车
+                    //.cartTop
+                    //    i.icon.icon-cart
+                    //    a.cartText(href='cart.html') 购物车(5)
+        if type==1
+            .navBox.shadow
+                .headerinnerW
+                    // logo
+                    h1.logo
+                        a(href='/')
+                            img(src='', alt='')
+                    .logoBg
+                    // 搜索
+                    .search
+                        input(type='text', placeholder='请输入您要搜索的景区名称',class='search-put')
+                        input(type='button', value='',class='search-btn',id="top-search")
+                        .des
+                            p PLEASE ENTER WHAT YOU WANT TO SEARCH
+                    // 导航
+                    .nav
+                        .navLi(class=module === "index" ? "on" : "")
+                            a(href='/') 首页
+                        .navLi(class=module === "ticket" ? "on" : "")
+                            a(href='/list/ticket') 景区
+                        .navLi(class=module === "hotel" ? "on" : "")
+                            a(href='/list/hotel') 酒店
+                        .navLi(class=module === "combo" ? "on" : "")
+                            a.lh3(href='/list/combo') 自由行
+                        .navLi(class=module === "repast" ? "on" : "")
+                            a(href='/list/repast') 餐饮
+                        .navLi(class=module === "shop" ? "on" : "")
+                            a(href='/list/shop') 购物
+                        .navLi(class=module === "car" ? "on" : "")
+                            a(href='/list/car') 租车
+                        .navLi(class=module === "route" ? "on" : "")
+                            a.lh3(href='/list/route') 跟团游
+                        .navLi(class=module === "strategy" ? "on" : "")
+                            a(href='/list/strategy') 攻略
+
+                        // 最后一个效果用
+                        .navLi.lastChild

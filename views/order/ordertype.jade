@@ -1,0 +1,412 @@
+-var name='',idcard='',tel=''
+if userinfo
+    -name=userinfo.realName,idcard=userinfo.idcard,mobile=userinfo.mobile
+mixin orderform(data,reObj,module)
+    case module
+        when 'route'
+        when 'ticket'
+            +ticketForm(data)
+        when 'hotel'
+            +hotelForm(data,reObj)
+        when 'combo'
+            +carForm(data)
+        when 'car'
+            +comboForm(data)
+        when 'shop'
+            +shopForm(data,reObj)
+        when 'repast'
+            +repastForm(data,reObj)
+
+mixin ticketForm(data)
+    h4.type-title=data[0].data.modelName
+    .order-info
+        strong
+            span.req-tag *
+            | 游玩日期：
+        .form-panel
+            -var currDate=(data[1].data.list.length>0)?data[1].data.list[0].currDate.substring(0,10):''
+            input.text.time-text(type='text', value=currDate, readonly='readonly', name='beginDate')
+            input(type='hidden', value=currDate, name='endDate',class='endDate')
+        #calendar.order-calender.other-calendar(data-list=data[1].data.list)
+    .order-info
+        strong
+            span.req-tag *
+            | 购买数量：
+        .form-panel.num-box
+            input#amount.number(type='text', value=data[2].data.minOrder?data[2].data.minOrder:1,name='amount')
+    .order-info
+        strong
+            span.req-tag *
+            | 单价：
+        span.price.orderPrice
+            em
+                | ¥
+                b=data[1].data.list.length>0?data[1].data.list[0].currPrice:0
+    .cb.order-line
+    h4.type-title 联系人信息
+    .order-info
+        strong
+            span.req-tag *
+            | 联系人：
+        .form-panel
+            input.text(type='text',name='linkMans',value=name)
+    .order-info
+        strong
+            span.req-tag *
+            | 手机号：
+        .form-panel
+            input.text(type='text',name='teles',value=mobile)
+    .order-info#idNo
+        strong
+            span.req-tag
+                if module==='ticket'
+                    if data[0].data.isRealName=='T'
+                        | *
+                    else
+                        if data[2] && data[2].data.isNeedIdcard == 'T'
+                            | *
+                else
+                    if data[2]&&data[2].data.isNeedIdcard=='T'
+                        | *
+            | 身份证：
+        .form-panel
+           input.text(type='text',name='idNos',value=idcard)
+    .addPeople
+    if data[0].data.bookRemind
+        .modelNoticeBox
+            .title 购票提示
+            .content!=data[0].data.bookRemind
+            .checkBox
+                input(type="checkbox",id='noticeAgree')
+                | 我已了解
+            .noticeBtnBox
+                a.noticeBtn.blue-bg-down(href='/detail/ticket/'+data[0].data.goodsCode) 取消
+                a.noticeBtn.nextBtn 下一步
+        .mask1(style="display:block")
+
+mixin hotelForm(data,reObj)
+    h4.type-title=data[0].data.modelName
+    .order-info
+        strong
+            span.req-tag *
+            | 入住时间：
+        .form-panel
+            span.modify-time-rear
+                span
+                    a.time.beginDate(href='javascript:;')=reObj.beginDate
+                    | &nbsp;至&nbsp;
+                    a.time.endDate(href='javascript:;')=reObj.endDate
+                span.total_days 共2晚
+                a.changeTime(href='javascript:;') 修改时间
+                input#beginDate(type='hidden', name='beginDate',value=reObj.beginDate)
+                input#endDate(type='hidden', name='endDate',value=reObj.endDate)
+            span.modify-time-box
+                span.lab 入住：
+                input.text.beginDateinput(type='text', value=reObj.beginDate, readonly='readonly')
+                span.lab 离开：
+                input.text.endDateinput(type='text', value=reObj.endDate, readonly='readonly')
+                input#btn.btn.btn-true(type='button', value='确认')
+            #calendar.order-calender.hotel-calendar(data-list=data[1].data.list)
+    .order-info
+        strong
+            span.req-tag *
+            | 房间数量：
+        .form-panel.num-box
+            input#amount.number(type='text', value=data[2].data.minOrder?data[2].data.minOrder:1, name='amount')
+    .cb.order-line
+    h4.type-title 房费详情
+    .roomsInfo
+
+    .cb.order-line
+    h4.type-title 入住人信息
+    .order-info
+        strong
+            span.req-tag *
+            | 入住人：
+        .form-panel
+             input#linkMan.text(type='text', value=name, name='linkMans')
+    .order-info
+        strong
+            span.req-tag *
+            | 手机号：
+        .form-panel
+            input#tele.text(type='text', value=mobile, name='teles')
+    .order-info#idNo
+        strong
+            span.req-tag
+                if data[2] && data[2].data.isNeedIdcard=='T'
+                    | *
+            | 身份证：
+        .form-panel
+            input#idNo.text(type='text', value=idcard, name='idNos')
+    .order-info
+        strong
+            span.req-tag
+            | 备注：
+        .form-panel
+            textarea#remark(rows='4', maxlength='30',name='remark')
+
+mixin comboForm(data)
+    .order-info
+        strong
+            span.req-tag *
+            | 游玩日期：
+        .form-panel
+            input.text.time-text(type='text', value='', readonly='readonly',name='beginDate')
+            input(type='hidden', value='', name='endDate',class='endDate')
+        #calendar.order-calender.other-calendar(data-list=data[1].data.list)
+    .order-info
+        strong
+            span.req-tag *
+            | 购买数量：
+        .form-panel.num-box
+            input.number#amount(type='text', value=data[2].data.minOrder?data[2].data.minOrder:1,name='amount')
+    .order-info
+        strong
+            span.req-tag *
+            | 价格：
+        span.price.orderPrice
+            em
+                | ¥
+                b
+    .cb.order-line
+    h4.type-title 联系人信息
+    .order-info
+        strong
+            span.req-tag *
+            | 联系人：
+        .form-panel
+            input.text(type='text',name='linkMans',value=name)
+    .order-info
+        strong
+            span.req-tag *
+            | 手机号：
+        .form-panel
+            input.text(type='text',name='teles',value=mobile)
+    .order-info#idNo
+        strong
+            span.req-tag
+                if data[2] && data[2].data.isNeedIdcard=='T'
+                    | *
+            | 身份证：
+        .form-panel
+            input.text(type='text',name='idNos',value=idcard)
+    .order-info
+        strong
+            span.req-tag
+            | 备注：
+        .form-panel
+            textarea(rows='4',name='remark')
+mixin carForm(data)
+    .order-info
+        strong
+            span.req-tag *
+            | 租车日期：
+        .form-panel
+            input.text.time-text(type='text', value='', readonly='readonly',name='beginDate')
+            input(type='hidden', value='', name='endDate',class='endDate')
+        #calendar.order-calender.other-calendar(data-list=data[1].data.list)
+    .order-info
+        strong
+            span.req-tag *
+            | 购买数量：
+        .form-panel.num-box
+            input.number#amount(type='text', value=data[2].data.minOrder?data[2].data.minOrder:1,name='amount')
+    .order-info
+        strong
+            span.req-tag *
+            | 价格：
+        span.price.orderPrice
+            em
+                | ¥
+                b
+    .cb.order-line
+    h4.type-title 联系人信息
+    .order-info
+        strong
+            span.req-tag *
+            | 联系人：
+        .form-panel
+            input.text(type='text',name='linkMans',value=name)
+    .order-info
+        strong
+            span.req-tag *
+            | 手机号：
+        .form-panel
+            input.text(type='text',name='teles',value=mobile)
+    .order-info#idNo
+        strong
+            span.req-tag
+                if data[2] && data[2].data.isNeedIdcard=='T'
+                    | *
+            | 身份证：
+        .form-panel
+            input.text(type='text',name='idNos',value=idcard)
+    .order-info
+        strong
+            span.req-tag
+            | 备注：
+        .form-panel
+            textarea(rows='4',name='remark')
+mixin shopForm(data,reObj)
+    .order-info
+        strong
+            span.req-tag *
+            | 购买数量：
+            input(type='hidden',class='shopStock',value=data[1].data)
+        .form-panel.num-box
+            input.number#amount(type='text', value=data[2].data.minOrder?data[2].data.minOrder:1,name='amount')
+    .order-info
+        strong
+            span.req-tag *
+            | 单价：
+        span.price.orderPrice
+            em
+                | ¥
+                b=data[0].data.currentPrice
+    input(type="hidden",name="paramExtension",value=reObj.getType,class="pgetType")
+    // 快递 start
+    if reObj.getType==0
+        .cb.order-line
+        h4.type-title 快递
+        input(type="hidden",name="paramExtension",class="paramExtensionCity")
+        input(type="hidden",name="paramExtension",class="paramExtensionArea")
+        .order-info
+            strong
+                span.req-tag *
+                | 收货地址：
+            .form-panel
+                #distpicker1
+                    select#province
+                    select#city
+                    select#area
+        .order-info
+            strong
+                span.req-tag *
+                | 详细地址：
+            .form-panel
+                input.text(type='text',name='paramExtension')
+        .order-info
+            strong
+                span.req-tag *
+                | 邮费：
+            .form-panel
+                span.price.postagePrice
+                    em
+                        | ¥
+                        b 6.00
+        .cb.order-line
+        h4.type-title 收货人信息
+        .order-info
+            strong
+                span.req-tag *
+                | 联系人：
+            .form-panel
+                input.text(type='text',name='linkMans',value=name)
+        .order-info
+            strong
+                span.req-tag *
+                | 手机号：
+            .form-panel
+                input.text(type='text',name='teles',value=mobile)
+
+        // 快递 end
+    else
+        h4.type-title 自提
+        .order-info
+            strong
+                span.req-tag *
+                | 提货地点：
+            .form-panel
+                if data[3].data.length>0
+                    span#ipt-address #{data[3].data[0].areaAddr}#{data[3].data[0].addr}
+                    input.text(type='hidden',name='paramExtension',class='paramExtension',value='#{data[3].data[0].areaAddr}#{data[3].data[0].addr}')
+                a.add-address(href='javascript:;') 选择收货地址
+
+        .cb.order-line
+        h4.type-title 提货人信息
+        .order-info
+            strong
+                span.req-tag *
+                | 联系人：
+            .form-panel
+                input.text(type='text',name='linkMans',value=name)
+        .order-info
+            strong
+                span.req-tag *
+                | 手机号：
+            .form-panel
+                input.text(type='text',name='teles',value=mobile)
+    .order-info
+        strong
+            span.req-tag
+            | 备注：
+        .form-panel
+            textarea(rows='4',name='remark')
+    if reObj.getType==1
+        .address-layer
+            a.close-addlayer(href='javascript:;')
+            .tab-overauto
+                table(cellpadding='0', cellspacing='0', width='100%', border='0')
+                    tbody
+                        tr
+                            th 店名
+                            th 地址
+                            th 电话
+                            th 提货时间
+                            th  
+                        each item in data[3].data
+                            tr.ads-tr
+                                td
+                                    span=item.name
+                                td
+                                    span.layer_address #{item.areaAddr}#{item.addr}
+                                td
+                                    span=item.linkTel
+                                td
+                                    span #{item.pickupBeginDate}-#{item.pickupEndDate}
+                                td(width='20')
+                                    input(type='radio', name='radaddress')
+        .mask
+
+mixin repastForm(data)
+    h4.type-title=data[0].data.modelName
+    .order-info
+        strong
+            span.req-tag *
+            | 使用日期：
+        .form-panel
+            -var currDate=(data[1].data.list.length>0)?data[1].data.list[0].currDate.substring(0,10):''
+            input.text.time-text(type='text', value=currDate, readonly='readonly', name='beginDate')
+            input(type='hidden', value=currDate, name='endDate',class='endDate')
+        #calendar.order-calender.other-calendar(data-list=data[1].data.list)
+    .order-info
+        strong
+            span.req-tag *
+            | 购买数量：
+        .form-panel.num-box
+            input#amount.number(type='text', value=data[2].data.minOrder ? data[2].data.minOrder : 1,name='amount')
+    .order-info
+        strong
+            span.req-tag *
+            | 单价：
+        span.price.orderPrice
+            em
+                | ¥
+                b=data[1].data.list.length > 0 ? data[1].data.list[0].currPrice : 0
+    .cb.order-line
+    h4.type-title 联系人信息
+    .order-info
+        strong
+            span.req-tag *
+            | 联系人：
+        .form-panel
+            input.text(type='text',name='linkMans',value=name)
+    .order-info
+        strong
+            span.req-tag *
+            | 手机号：
+        .form-panel
+            input.text(type='text',name='teles',value=mobile)
+
+

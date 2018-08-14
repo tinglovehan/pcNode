@@ -1,0 +1,36 @@
+mixin leftNav(page)
+    .member-menu
+        dl.select
+            dt
+                span
+                | 个人中心
+                i
+            dd(class=page=="info"?"on":"")
+                a(href="/member/info") 我的信息
+            dd(class=page=="safe"?"on":"")
+                a(href="/member/safe") 账户安全
+        dl.dlmodule.select
+            dt(class=page == "couponList" ? "on" : "")
+                span
+                a(href="/member/couponList") 优惠券
+        dl.dlmodule.select
+            dt
+                span
+                | 我的订单
+                i
+            dd(class=page==""?"on":"")
+                a(href="/member/order?orderType=") 全部订单
+            dd(class=page=="ticket"?"on":"")
+                a(href="/member/order?orderType=ticket") 门票订单
+            dd(class=page=="hotel"?"on":"")
+                a(href="/member/order?orderType=hotel") 酒店订单
+            dd(class=page=="combo"?"on":"")
+                a(href="/member/order?orderType=combo") 自由行订单
+            dd(class=page=="route"?"on":"")
+                a(href="/member/order?orderType=route") 跟团游订单
+            dd(class=page == "car" ? "on" : "")
+                a(href="/member/order?orderType=car") 租车订单
+            dd(class=page=="shop"?"on":"")
+                a(href="/member/order?orderType=shop") 商品订单
+            dd(class=page=="repast"?"on":"")
+                a(href="/member/order?orderType=repast") 美食订单

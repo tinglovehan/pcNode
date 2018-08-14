@@ -1,0 +1,163 @@
+extends ../layout
+
+block stylesheets
+    if(module=="hotel")
+        link(rel="stylesheet", href="/stylesheets/calendar.hotel.two.css")
+    link(rel="stylesheet", href="/stylesheets/member.css")
+block javascripts
+    script(type='text/javascript', src='/javascripts/member.js')
+    if(module=="hotel")
+        script(type='text/javascript', src='/javascripts/jquery.calendar-hotel.js')
+block content
+    include ../common/header
+    +header(1)
+    include ../common/index
+    include common/leftNav
+    include detail/info
+    .cur-location
+        a.locat-home(href='/') 首页
+        |  >
+        +locationInfo(module)
+    .member-module
+        +leftNav(module)
+        .member-content.be.bg-f
+            .member-detail.b-b
+                .title 订单详情
+                .member-detail-top
+                    .top-left
+                        .label-box
+                            label 订单时间：
+                            .txt=data[0].data.createTime
+                        .label-box
+                            label 订单编号：
+                            .txt=data[0].data.orderNo
+                        .label-box
+                            label 支付类型：
+                            case data[0].data.payType
+                                when "0"
+                                    .txt 无指定支付方式
+                                when "1"
+                                    .txt 预付款
+                                when "2"
+                                    .txt 支付宝
+                                when "21"
+                                when "22"
+                                    .txt 支付宝支付
+                                when "3"
+                                when "31"
+                                when "32"
+                                    .txt 微信支付
+                                when "33"
+                                    .txt 微信小程序支付
+                                when "34"
+                                    .txt 智游宝微信公众号支付
+                                when "35"
+                                    .txt 智游宝微信扫码支付
+                                when "6"
+                                    .txt 备用金支付
+                                when "61"
+                                    .txt 分销商积分支付
+                                when "7"
+                                    .txt 建行支付
+                                when "8"
+                                    .txt 中国银行支付
+                                when "9"
+                                    .txt 信用账户支付
+                                when "10"
+                                    .txt 微商银行支付
+                                when "11"
+                                    .txt 中国工商银行支付
+                                default
+                                    .txt 无
+                        .label-box
+                            label 订单状态：
+                            if data[0].data.orderType !== 'shop'
+                                .txt.type
+                                    case data[0].data.orderStatus
+                                        when "0"
+                                            span.c-bg-orange 未支付
+                                        when "1"
+                                            span.c-bg-green 已支付
+                                        when "2"
+                                            span.c-bg-blue 已完成
+                                        when "3"
+                                            span.c-bg-blue 已退款
+                                        when "4"
+                                            span.c-bg-blue 交易取消
+                                        when "5"
+                                            span.c-bg-blue 待确认
+                                    .price.fr 合计金额：
+                                        em
+                                            i ￥
+                                            | #{data[0].data.paySum}
+                            else
+                                if data[0].data.sendStatus=='3'
+                                    .txt.type
+                                        span.c-bg-blue 自提
+                                else
+                                    .txt.type
+                                        span.c-bg-blue #{data[0].data.sendStatus}
+                                .price.fr 合计金额：
+                                    em
+                                        i ￥
+                                        | #{data[0].data.paySum}
+                    .top-right
+                        case data[0].data.orderStatus
+                            when "0"
+                                a(href="/pay/"+data[0].data.orderType+"/"+data[0].data.orderNo+"").btn.c-bg-orange 去支付
+                                a(href="javascript:;").btn.c-bg-orange.mt15.cancelOrder 取消订单
+                            when "1"
+                                a(href="/refund/"+data[0].data.orderNo+"?amount="+data[0].data.amount).btn.c-bg-orange.mt15 申请退款
+                            when "2"
+                                if data[0].data.comment
+                                    p.c-orange 已评价
+                                else
+                                    a(href="/member/comment?modelCode="+data[0].data.modelCode+"&orderNo="+data[0].data.orderNo+"&businessType="+data[0].data.orderType).btn.c-bg-orange.mt15 去点评
+                            when "3"
+                                p.c-orange 已退款
+                            when "4"
+                                p.c-orange 交易取消
+                                //a(href="").btn.c-bg-blue 再次预订
+            +detailInfo(data[0].data,module)
+            if(data[0].data.refundList)
+                .member-detail
+                    .title 退款记录
+                    table.back-table
+                        thead
+                            tr
+                                th 退款时间
+                                th 退款金额
+                                th 退款数量
+                        tbody
+                            each item in data[0].data.refundList
+                                tr
+                                    td=item.createTime
+                                    td=item.refundPrice
+                                    td=item.refundNum
+    if(module=="hotel")
+        script.
+            $(function (){
+                //日历和数量的参数
+                var data ={
+                    "calendar":{
+                        "id":"calendar",
+                        "width":350,
+                        "settingdata":$('#calendar').data("calendar")
+                    }
+                }
+                orderInit(data);
+                $(".calendar-btn").click(function(){
+                    $("#calendar").toggle();
+                });
+            });
+    include ../common/footer
+    script.
+        $(function () {
+            $(".cancelOrder").click(function () {
+                var url="/cancelOrder/"+'#{data[0].data.orderNo}'+""
+                $.post(url)
+                    .success(function (data) {
+                        dilogbox(data[0].status,data[0].message,'/member/order?orderType=')
+                    })
+            })
+        })

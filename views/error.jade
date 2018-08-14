@@ -1,0 +1,31 @@
+extends layout
+block stylesheets
+  link(rel="stylesheet", href="/stylesheets/error.css")
+block content
+  include ./common/header
+  //.pay-results
+  //  img.font-icon(src='images/member/error.png', alt='')
+  //  p 糟糕！出错了!
+  //.results-only
+  //  p 错误原因：#{message}
+  //.btn-box2
+  //  .btn-bottom
+  //    //.btn-handle
+  //      a.btn-RP(href='ticket-pay-success.html') 刷新页面
+  //    .btn-handle
+  //      a.btn(href='index') 返回首页
+  +header(1)
+  .error-main
+    .error-img
+    h4.error-tit=message
+    //p.error-tips
+    //  | 友情提示：您正在浏览的网页可能已被删除、重命名或暂时不可用，重命名或暂时不可用。
+    //  | 重命名或暂时不可用重命名或暂时不可用重命名或暂时不可用重命名或暂时不可用
+    //  | 重命名或暂时不可用
+    .autoBack
+      a.back_link(href='/') 返回首页
+
+//block content
+  h1= message
+  h2= error.status
+  pre #{error.stack}

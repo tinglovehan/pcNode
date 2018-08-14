@@ -1,0 +1,103 @@
+extends ../layout
+
+block stylesheets
+    link(rel="stylesheet", href="/stylesheets/member.css")
+block javascripts
+    script(type='text/javascript', src='/javascripts/validate/jquery.validate.min.js')
+    script(type='text/javascript', src='/javascripts/validate/messages_zh.min.js')
+    script(type='text/javascript', src='/javascripts/validate/additional-methods.js')
+    script(type='text/javascript', src='/javascripts/member.js')
+block content
+    include ../common/header
+    +header(1)
+    include common/leftNav
+    .cur-location
+        a.locat-home(href='/') 首页
+        |  >
+        span 我的信息
+    .member-module
+        +leftNav(module)
+        .member-content
+            .member-content-left
+                form(class="comment-form")
+                    .assess-box.be.mb7
+                        .title.inline 用户评价：
+                        .love-num.inline.ml50
+                            i
+                            i
+                            i
+                            i
+                            i
+                            em.num 5分
+                            input(type='hidden',name='score',value='5',class='score')
+                    .assess-box.be.mb7
+                        .title 点评内容：
+                        p.assess-err-box
+                            textarea.txt(name='content')
+                        .title.ischeck
+                            input(type='checkBox',checked='checked',class='checkBox')
+                            | 匿名评论
+                        input(type='hidden',name='isAnonymous',value='0',class='isAnonymous')
+                        input(type='hidden',name='orderNo',value=orderNo)
+                        input(type='hidden',name='modelCode',value=modelCode)
+                        input(type='hidden',name='businessType',value=businessType)
+                        input.c-bg-orange.assess-btn(type='button', value='提交评价')
+            .member-content-right.be.bg-f.assess-right
+                .title 其他用户点评
+                .aeesee-list
+                    ul
+                        if data[0].data.list.rows.length>0
+                            each item in data[0].data.list.rows
+                                li
+                                    a(href='javascript:;')
+                                        .name
+                                            span
+                                                if item.isAnonymous=='1'
+                                                    if item.leaguerName.length=11
+                                                        =item.leaguerName.slice(0,3)+"***"+item.leaguerName.slice(8)
+                                                    else
+                                                        =item.leaguerName.slice(0,1)+"***"
+                                                else
+                                                    ='匿名评论'
+                                            //| 榻榻米大床房(内宾)
+                                        .txt=item.content
+                                        span.time=item.createTime
+                        else
+                            p.no-show 暂无评论
+    include ../common/footer
+    script.
+        $(function () {
+            $(".checkBox").click(function () {
+                if(this.checked){
+                    $(".isAnonymous").val(0);
+                }else{
+                    $(".isAnonymous").val(1);
+                }
+            });
+            var validator=$(".comment-form").validate({
+                rules: {
+                    content: {
+                        required: true,
+                        isAvailable: true
+                    }
+                }
+            });
+            $(".assess-btn").click(function () {
+                if(validator.form()){
+                    $.ajax({
+                        url:'/member/comment',
+                        type:"POST",
+                        data:$(".comment-form").serialize(),
+                        beforeSend:function () {
+                            $(".assess-btn").attr("disabled","disabled");
+                        },
+                        success:function (data) {
+                            dilogbox(data[0].status, data[0].message, '/member/order?orderType=');
+                            $(".assess-btn").removeAttr("disabled");
+                        }
+                    });
+
+                }
+            });
+        })
+

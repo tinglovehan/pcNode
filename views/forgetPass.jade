@@ -1,0 +1,93 @@
+extends layout
+
+block stylesheets
+    link(rel="stylesheet", href="/stylesheets/login.css")
+block javascripts
+    script(type='text/javascript', src='/javascripts/validate/jquery.validate.min.js')
+    script(type='text/javascript', src='/javascripts/validate/messages_zh.min.js')
+    script(type='text/javascript', src='/javascripts/validate/additional-methods.js')
+    script(type='text/javascript', src='/javascripts/forget.js')
+block content
+    include ./common/header
+    include ./common/index
+    +header()
+    .ret-info-box
+        .ret-info-com
+            .ret-info-title
+                span 找回密码
+            .ret-info-triangle
+            // 进度条     star
+            .box1
+                .ret-info-progress
+                    ul
+                        li.ret-info-bgline.blue
+                            p.ret-info-bgline
+                            .ret-info-step
+                                p.ret-info-stepmember.blue 1
+                                p.ret-info-steptext 身份验证
+                        li.ret-info-bgline.gray
+                            p.ret-info-bgline
+                            .ret-info-step
+                                p.ret-info-stepmember.gray 2
+                                p.ret-info-steptext 重置密码
+                        li.ret-info-bgline.gray
+                            p.ret-info-bgline
+                            .ret-info-step
+                                p.ret-info-stepmember.gray 3
+                                p.ret-info-steptext 完成
+                // 进度条     end
+                // 验证信息start
+                form#forgetform
+                    .ret-pwdinfo.clearfix
+                        strong 手机号码：
+                        .form-panel
+                            input#loginNameMobileRan.text.w200.fl(type='text', placeholder='请输入手机号码',name='loginName')
+
+                    .ret-pwdinfo.clearfix
+                        strong 验证码：
+                        .form-panel.clearfix.img-check
+                            input.text.fl.w200.code(type='text',name='code', placeholder='不区分大小写')
+                            img.fl(src='images/login/auth-code.png')
+                    .ret-pwdinfo.clearfix
+                        strong 手机验证码：
+                        .form-panel.clearfix
+                            input.text.fl.w90(type='text', placeholder='5位数字动态码',name='checkCode')
+
+                            a(href='javascript:;')
+                                input.btn-dcode.blue-bgcf(id='btn-dcode',value='获取动态码',type='button')
+                    .ret-info-progress
+                        a.btn-sub.blue-bg-down#btn1(href='javascript:;') 下一步
+            .box2(style="display:none")
+                .ret-info-progress
+                    ul
+                        li.ret-info-bgline.blue
+                            p.ret-info-bgline
+                            .ret-info-step
+                                p.ret-info-stepmember.blue 1
+                                p.ret-info-steptext 身份验证
+                        li.ret-info-bgline.blue
+                            p.ret-info-bgline
+                            .ret-info-step
+                                p.ret-info-stepmember.blue 2
+                                p.ret-info-steptext 重置密码
+                        li.ret-info-bgline.gray
+                            p.ret-info-bgline
+                            .ret-info-step
+                                p.ret-info-stepmember.gray 3
+                                p.ret-info-steptext 完成
+                // 进度条     end
+                // 验证信息start
+                form#forget2form
+                    .ret-pwdinfo
+                        strong 新密码：
+                        .form-panel.clearfix
+                            input.text.w200.fl#password(type='password', placeholder='请输入新密码',name='password',onpaste="return false")
+
+                    .ret-pwdinfo
+                        strong 确认密码：
+                        .form-panel.clearfix
+                            input.text.w200.fl(type='password', placeholder='请确认密码',name='passwordTo',onpaste="return false")
+
+                    .ret-info-progress
+                        a.btn-sub.blue-bg-down#btn2(href='javascript:;') 下一步
+    include ./common/footer

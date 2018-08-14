@@ -1,0 +1,20 @@
+extends ../layout
+block stylesheets
+    link(rel="stylesheet", href="/stylesheets/jquery.page.css")
+    link(rel="stylesheet", href="/stylesheets/list.css")
+block javascripts
+    script(type='text/javascript', src='/javascripts/laypage/laypage.js')
+    script(type='text/javascript', src='/javascripts/coupon/getCoupon.js')
+block content
+    include ../common/header
+    include ../common/index
+    +header(1)
+    +place('','领取优惠券')
+    .list-wrap
+        .list-container.mb20
+            .list-main-bd
+                .list-main
+                    .coupon-main#getCoupon
+                        ul#yes
+                    #page
+    include ../common/footer

@@ -1,0 +1,76 @@
+extends ../layout
+
+block stylesheets
+    link(rel="stylesheet", href="/stylesheets/member.css")
+block javascripts
+    script(type='text/javascript', src='/javascripts/validate/jquery.validate.min.js')
+    script(type='text/javascript', src='/javascripts/validate/messages_zh.min.js')
+    script(type='text/javascript', src='/javascripts/validate/additional-methods.js')
+block content
+    include ../common/header
+    +header(1)
+    include common/leftNav
+    .cur-location
+        a.locat-home(href='/') 首页
+        |  >
+        span 我的信息
+    .member-module
+        +leftNav("11")
+        .member-content.be
+            .content-title 退款
+            .content.info-detail.pd115
+                form#refundfrom
+                    .refund-box
+                        h4.ref-tit 申请退款
+                        //.refund-text
+                        //    p
+                        //        strong 退款须知：
+                        //    p · 门票如未领取可申请全额退款，门票一经领取，不予退款，遗失不补，敬请见谅；
+                        //    p · 门票在出游日前（含当天）可申请全额退款，逾期申请将视为无效，不予退款。
+                        //    p
+                        //        | · 法定节假日出游当天申请含沈园之夜门票退款（绍兴古城旅游通票、沈园之夜单景点门票）将收取10%手续费；
+                        //        | 提前申请将全额退款。
+                        .refund-info
+                            p
+                                strong 退单金额：
+                                span.price ¥57.5
+                            p
+                                strong 退单数量：
+                                span=amount
+                            p
+                                strong 退款原因说明：
+                            p.refund-err-box
+                                textarea( rows='3',name='reason',class='reason')
+                            .input-box.mt20
+                                a.cont-btn.c-bg-blue(href='javascript:;') 确定
+    include ../common/footer
+    script.
+        $(function () {
+            var getpriceData={orderNo:#{orderNo},refundNum:#{amount}};
+            $.post('/redund/refundPrice',getpriceData)
+                .success(function (data) {
+                    $(".price").html('¥'+data[0].data);
+                });
+            var validator = $("#refundfrom").validate({
+                rules: {
+                    reason: {
+                        required: true,
+                        isAvailable: true
+                    }
+                }
+            });
+
+            $(".cont-btn").click(function(){
+                if(validator.form()){
+                    var val=$('.reason').val();
+                    $.post('/refund', getpriceData)
+                        .success(function (data) {
+                            if (data[0].status == 200) {
+                                dilogbox(data[0].status, '成功', '/member/order?orderType=');
+                            } else {
+                                dilogbox(data[0].status, data[0].message);
+                            }
+                        })
+                }
+            })
+        })

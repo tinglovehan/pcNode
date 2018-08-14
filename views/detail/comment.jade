@@ -1,0 +1,24 @@
+mixin comment(data)
+    #comment.comment
+        .border-base-b.dt.comm-top
+            .comment-num.c-f6 1条评价
+            em.c-red 3
+            i.font-d / 5分
+            .love-num.inline.ml50
+                -for(var i=0;i<5;i++)
+                    i.no-love
+        .comment-tab
+            .hd
+                a.on(href='javascript:;' data-level='0') 全部点评
+                | |
+                a(href='javascript:;' data-level='1') 满意
+                | |
+                a(href='javascript:;' data-level='2') 一般
+                | |
+                a(href='javascript:;' data-level='3') 不满意
+            .bd
+                .comment-bd
+                    .comment-html
+                    #page
+
+        // <div id="more" class="more c-9 dd">暂无更多</div>

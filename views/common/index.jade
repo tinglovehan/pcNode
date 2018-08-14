@@ -1,0 +1,160 @@
+mixin formatDate(date)
+  -var year=date.getFullYear()
+  -var month=date.getMonth()+1
+  -var day=date.getDate()
+  =year+'-'+(month<10?'0'+month:month)+'-'+(day<10?'0'+day:day)
+
+mixin getModule(m)
+  -var _m='景区'
+  -var _c='icon-iconfont-menpiao'
+  case m
+    when 'hotel'
+      -_m='酒店'
+      -_c='icon-iconfont-jiudian'
+    when 'amuse'
+      -_m='娱乐'
+      -_c='icon-iconfont-amuse'
+    when 'combo'
+      -_m='自由行'
+      -_c='icon-iconfont-ziyouxing'
+    when 'goods'
+      -_m='商品'
+      -_c='icon-iconfont-shouji3'
+    when 'repast'
+      -_m='餐饮'
+      -_c='icon-iconfont-canting'
+    when 'traffic'
+      -_m='交通'
+      -_c='icon-iconfont-gongjiao'
+  i(class='font-icon mold-type '+_c)
+  =_m
+
+mixin payStatus(m)
+  -var _m='其他'
+  case m
+    when 0
+      -_m='待支付'
+    when 1
+      -_m='已支付'
+    when 2
+      -_m='已评论'
+    when 3
+      -_m='待评论'
+    when 13
+      -_m='退款中'
+    when 12
+      -_m='已退款'
+    when 14
+      -_m='待审核'
+    when 15
+      -_m='退款失败'
+    when 6
+      -_m='已发货'
+    when 7
+      -_m='已过期'
+    when 5
+      -_m='待确认'
+    when 9
+      -_m='已确认'
+    when 10
+      -_m='确认失败'
+    when 11
+      -_m='已取消'
+  =_m
+
+mixin strcut(str,num)
+  -if(str)
+    - if(str.length>num)
+      = str.substr(0, num) + "..."
+    -else
+      = str
+
+mixin strcutTime(str,num)
+  -if(str)
+    - if(str.length>num)
+      = str.substr(0, num)
+    -else
+      = str
+mixin share
+  label 分享：
+  .social-share.share-component#share-2
+
+
+
+
+mixin moduleShow(module)
+  case module
+    when "ticket"
+      ='门票'
+    when "hotel"
+      ='酒店'
+    when "combo"
+      ='自由行'
+    when "repast"
+      ='美食'
+    when "shop"
+      ='商品'
+    when "strategy"
+      ='攻略'
+    when "route"
+      ='跟团游'
+    when "car"
+      ='租车'
+
+
+mixin place(module,type)
+  .cur-location
+    a.locat-home(href='/') 首页
+    |  >
+    if type === 'list'
+      span
+        +moduleShow(module)
+        |列表
+    if type === 'detail'
+      a(href='/list/'+module)
+        +moduleShow(module)
+        |列表
+      |  >
+      span
+        +moduleShow(module)
+        |详情
+    if type === 'order'
+      a(href='/list/' + module)
+        +moduleShow(module)
+        |列表
+      |  >
+      span
+        +moduleShow(module)
+        |下单
+    if type==='pay'
+      a(href='/list/' + module)
+        +moduleShow(module)
+        | 列表
+      |  >
+      span
+        +moduleShow(module)
+        | 支付
+    if type === '领取优惠券'
+      span=type
+    if type === '优惠券'
+      span=type
+
+mixin rightInfo(data)
+  .list-r.type0
+    .list-r-01
+      .r-item-tit
+        h3 热门推荐
+      ul
+        each item in data.rows
+          li
+            a.r-item-img(href=item.url)
+              img(src=item.mig, alt='')
+            .r-item-info
+              h4.r-item-title
+                a(href=item.url)=item.name
+                  br
+              p.r-item-price
+                span.fr 已售#{item.sale_num}
+                i.rmb ¥
+                em=item.price
+

@@ -1,0 +1,324 @@
+mixin detailInfo(data,module)
+    .member-detail.b-b
+        +titleInfo(module)
+        .member-detail-name
+            h4=data.orderInfo
+            if(module=="ticket" || module=="hotel")
+                .address=data.addr
+        .member-detail-info
+            +listInfo(data,module)
+        .buy-list
+            if(data.linkManDTOList)
+                each item in data.linkManDTOList
+                    .item
+                        p 成人
+                        .label-box
+                            label 游客姓名：
+                            .txt=item.linkMan
+                        .label-box
+                            label 身份证：
+                            .txt=item.idNo
+                        .label-box
+                            label 联系方式：
+                            .txt=item.telephone
+            else
+                case module
+                    when "ticket"
+                    when "hotel"
+                    when "combo"
+                    when "route"
+                    when "car"
+                        .item
+                            p 成人
+                            .label-box
+                                label 游客姓名：
+                                .txt=data.linkName
+                            .label-box
+                                label 身份证：
+                                .txt=data.linkIdcard
+                            .label-box
+                                label 联系方式：
+                                .txt=data.linkMobile
+                    when "shop"
+                        .item
+                            p 收货人
+                            .label-box
+                                label 姓名：
+                                .txt=data.linkName
+                            .label-box
+                                label 联系方式：
+                                .txt=data.linkMobile
+
+                        .item
+                            p 发货信息
+                             if data.sendType === '0'
+                                .label-box
+                                    label 配送方式：
+                                    .txt 快递
+                                .label-box
+                                    label 快递单号：
+                                    .txt=data.expressNo ? data.expressNo : ''
+                                .label-box
+                                    label 快递公司：
+                                    .txt=data.expressType ? data.expressType : ''
+                                .label-box
+                                    label 收货地址：
+                                    .txt=data.linkAddr && data.linkAddr !== 'undefined' ? data.linkAddr : ''
+                             else
+                                .label-box
+                                    label 配送方式：
+                                    .txt 自提
+                                .label-box
+                                     label 自提地址：
+                                     .txt=data.linkAddr && data.linkAddr !== 'undefined' ? data.linkAddr : ''
+
+                    when "repast"
+                        .item
+                            p 联系人
+                            .label-box
+                                label 姓名：
+                                .txt=data.linkName
+                            .label-box
+                                label 联系方式：
+                                .txt=data.linkMobile
+// 面包屑名称
+mixin locationInfo(module)
+    case module
+        when "ticket"
+            span 门票订单详情
+        when  "hotel"
+            span 酒店订单详情
+        when "combo"
+            span 自由行订单详情
+
+// 头部名称
+mixin titleInfo(module)
+    case module
+        when "ticket"
+            .title 个人信息
+        when "hotel"
+            .title 入住信息
+        when "combo"
+            .title 产品信息
+        when "repast"
+            .title 产品信息
+        when "shop"
+            .title 商品信息
+
+
+//个人、酒店、产品信息列表
+mixin listInfo(item,module)
+    case module
+        when "ticket"
+            ul
+                li
+                    .label-box
+                        label 票型名称：
+                        .txt=item.productName
+                li
+                    .label-box
+                        label 门票数量：
+                        .txt=item.amount
+                li
+                    .label-box
+                        label 游玩日期：
+                        .txt
+                            +strcutTime(item.startTime,10)
+                li
+                    .label-box
+                        label 单价：
+                        .txt=item.price
+                            | 元
+                li
+                    .label-box
+                        label 优惠方式：
+                        if(item.couponDetail)
+                            .txt=item.couponDetail
+                        else
+                            .txt 无
+                li
+                    .label-box
+                        label 优惠金额：
+                        if(item.couponCode)
+                            .txt=item.couponSum
+                        else
+                            .txt 无
+        when "hotel"
+            ul
+                li
+                    .label-box
+                        label 房型名称：
+                        .txt=item.productName
+                li
+                    .label-box
+                        label 房间数量：
+                        .txt=item.amount
+                li
+                    .label-box
+                        label 每日价格：
+                        .txt
+                           i.calendar-btn.inline
+                        #calendar.order-calender.hotel-calendar(data-calendar=item.hotelPriceList)
+                li
+                   .label-box
+                       label 入住日期：
+                       .txt
+                           +strcutTime(item.startTime,10)
+                li
+                    .label-box
+                        label 优惠方式：
+                        if(item.couponDetail)
+                            .txt=item.couponDetail
+                        else
+                            .txt 无
+                li
+                    .label-box
+                        label 优惠金额：
+                        if(item.couponCode)
+                            .txt=item.couponSum
+                        else
+                            .txt 无
+                li
+                    .label-box
+                        label 备注：
+                        if(item.remark)
+                            .txt=item.remark
+                        else
+                            .txt 无
+        when "combo"
+        when "route"
+            ul
+                li
+                    .label-box
+                        label 产品数量：
+                        .txt=item.amount
+                li
+                    .label-box
+                        label 产品单价：
+                        .txt=item.price
+                            | 元
+                li
+                    .label-box
+                        label 游玩日期：
+                        .txt
+                            +strcutTime(item.startTime,10)
+                li
+                    .label-box
+                        label 优惠方式：
+                        if(item.couponDetail)
+                            .txt=item.couponDetail
+                        else
+                            .txt 无
+                li
+                    .label-box
+                        label 优惠金额：
+                        if(item.couponCode)
+                            .txt=item.couponSum
+                        else
+                            .txt 无
+                li
+                    .label-box
+                        label 备注：
+                        if(item.remark)
+                            .txt=item.remark
+                        else
+                            .txt 无
+        when "repast"
+            ul
+                li
+                    .label-box
+                        label 产品数量：
+                        .txt=item.amount
+                li
+                    .label-box
+                        label 产品单价：
+                        .txt=item.price
+                        | 元
+                li
+                    .label-box
+                        label 使用日期：
+                        .txt
+                            +strcutTime(item.startTime,10)
+                li
+                    .label-box
+                        label 优惠方式：
+                        if(item.couponDetail)
+                            .txt=item.couponDetail
+                        else
+                            .txt 无
+                li
+                    .label-box
+                        label 优惠金额：
+                        if(item.couponCode)
+                            .txt=item.couponSum
+                        else
+                            .txt 无
+        when "car"
+            ul
+                li
+                    .label-box
+                        label 产品数量：
+                        .txt=item.amount
+                li
+                    .label-box
+                        label 产品单价：
+                        .txt=item.price
+                            | 元
+                li
+                    .label-box
+                        label 使用日期：
+                        .txt
+                            +strcutTime(item.startTime,10)
+                li
+                    .label-box
+                        label 优惠方式：
+                        if(item.couponDetail)
+                            .txt=item.couponDetail
+                        else
+                            .txt 无
+                li
+                    .label-box
+                        label 优惠金额：
+                        if(item.couponCode)
+                            .txt=item.couponSum
+                        else
+                            .txt 无
+                li
+                    .label-box
+                        label 备注：
+                        if(item.remark)
+                            .txt=item.remark
+                        else
+                            .txt 无
+        when "shop"
+            ul
+                li
+                    .label-box
+                        label 产品数量：
+                        .txt=item.amount
+                li
+                    .label-box
+                        label 产品单价：
+                        .txt=item.price
+                            | 元
+                li
+                    .label-box
+                        label 优惠方式：
+                        if(item.couponDetail)
+                            .txt=item.couponDetail
+                        else
+                            .txt 无
+                li
+                    .label-box
+                        label 优惠金额：
+                        if(item.couponCode)
+                            .txt=item.couponSum
+                        else
+                            .txt 无
+                li
+                    .label-box
+                        label 备注：
+                        if(item.remark)
+                            .txt=item.remark
+                        else
+                            .txt 无

@@ -1,0 +1,122 @@
+mixin type(data,rePage)
+    if rePage === 'combo'
+        li.tit
+            strong 套餐：
+            span=data[0].data.orderInfo
+        li
+            strong 数量：
+            span.c-f93=data[0].data.amount
+        li
+            strong 游玩日期：
+            span.c-f93
+                +strcutTime(data[0].data.startTime,10)
+        li
+            strong 订单编号：
+            span=data[0].data.orderNo
+        li
+            strong 联系人：
+            span=data[0].data.linkName
+        li
+            strong 手机号：
+            span=data[0].data.linkMobile
+        li
+            strong 身份证：
+            span=data[0].data.linkIdcard
+    if rePage === 'hotel'
+        li.tit
+            strong 酒店房型：
+            span=data[0].data.orderInfo
+        li
+            strong 房间数量：
+            span.c-f93=data[0].data.amount
+        li
+            strong 入住日期：
+            span.c-f93
+                +strcutTime(data[0].data.startTime,10)
+                | 至
+                +strcutTime(data[0].data.endTime,10)
+        li
+            strong 订单编号：
+            span=data[0].data.orderNo
+        li
+            strong 联系人：
+            span=data[0].data.linkName
+        li
+            strong 手机号：
+            span=data[0].data.linkMobile
+        li
+            strong 身份证：
+            span=data[0].data.linkIdcard
+        li.tit
+            strong 备注信息：
+            span=data[0].data.remark
+    if rePage === 'ticket'
+        li.tit
+            strong 门票类型：
+            span=data[0].data.orderInfo
+        li
+            strong 门票数量：
+            span.c-f93=data[0].data.amount
+        li
+            strong 游玩日期：
+            span.c-f93
+                +strcutTime(data[0].data.startTime,10)
+        li
+            strong 订单编号：
+            span=data[0].data.orderNo
+        li
+            strong 联系人：
+            span=data[0].data.linkName
+        li
+            strong 手机号：
+            span=data[0].data.linkMobile
+        li
+            strong 身份证：
+            span=data[0].data.linkIdcard
+    if rePage === 'shop'
+        li.tit
+            strong 商品名称：
+            span=data[0].data.orderInfo
+        li
+            strong 数量：
+            span.c-f93=data[0].data.amount
+        li
+            strong 订单编号：
+            span=data[0].data.orderNo
+        li
+            strong 联系人：
+            span=data[0].data.linkName
+        li
+            strong 手机号：
+            span=data[0].data.linkMobile
+        if data[0].data.sendType == 0
+            li
+                strong 收货地址：
+                span=data[0].data.linkAddr
+        if data[0].data.sendType == 1
+            li
+                strong 提货地址：
+                span=data[0].data.linkAddr
+        li
+            strong 备注：
+            span=data[0].data.remark
+    if rePage === 'repast'
+        li.tit
+            strong 套餐名称：
+            span=data[0].data.orderInfo
+        li
+            strong 数量：
+            span.c-f93=data[0].data.amount
+        li
+            strong 有效期：
+            span.c-f93
+                +strcutTime(data[0].data.startTime,10)
+        li
+            strong 订单编号：
+            span=data[0].data.orderNo
+        li
+            strong 联系人：
+            span=data[0].data.linkName
+        li
+            strong 手机号：
+            span=data[0].data.linkMobile

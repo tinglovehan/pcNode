@@ -1,0 +1,120 @@
+mixin tickettype(priceData)
+    #px.typelist.mb10.detail-module
+        .item-tkt.item-typelist
+            table
+                thead
+                    if module==='repast'
+                        th(colspan='2') 餐饮名称
+                            th 门市价
+                            th 优惠价
+                            th 预订
+                    else
+                        th(colspan='2') 票型名称
+                        th 原价
+                        th 优惠价
+                        th 订票
+                tbody
+                    if priceData.data.length>0
+                        each items in priceData.data
+                            -var webpack=''
+                            if module === 'ticket'
+                                -webpack=items.webParkTickets
+                            if module === 'route'
+                                -webpack=items.webRoutePlans
+                            if module === 'repast'
+                                -webpack=items.webEateryRepastVos
+                            each item,index in webpack
+                                -var size=webpack.length*2
+                                tr
+                                    if index==0
+                                        td.table-tit(rowspan=size)=items.modelName
+                                    td.tl
+                                        span.tit=item.aliasName
+                                        i.look-tkt-pinfo.c-blue 查看详情 >
+                                    td
+                                        if module==='repast'
+                                            del 门市价：￥#{items.priceShow}
+                                        else
+                                            del 门市价：￥#{item.priceShow}
+
+                                    td
+                                        span.price.c-red ￥#{item.currentPrice}
+                                    td
+                                        span.btn-box
+                                            if module==='ticket' || module==='combo'
+                                                a.btn.order-btn.blue-bgcf(href=item.enabled==='T'?'/order/'+module+'/'+item.rateCode+'?parkId='+item.parkId:'javascript:;' class=item.enabled==='T'?'':'gray_btn') 预订
+                                            else
+                                                a.btn.order-btn.blue-bgcf(href='/order/'+module+'/'+item.rateCode) 预订
+                                tr
+                                    td.tkt-pinfo(colspan='5')
+                                        if module === 'ticket'|| module === 'route'
+                                            .tkt-pinfo-con!=item.modelExplain
+                                                .up-btn.c-blue 收起∧
+                                        if module === 'repast'
+                                            .tkt-pinfo-con!=item.content
+                                                .up-btn.c-blue 收起∧
+                    else
+                        table#look_all_table_5
+                            tbody
+                                tr
+                                    td(colspan='7') 暂无数据
+            if  priceData.parkComboInfos && module=='ticket'
+                table
+                    thead
+                        th(colspan='2') 套票名称
+                        th 原价
+                        th 优惠价
+                        th 订票
+                    tbody
+                        each item,index in priceData.parkComboInfos
+                            -var size=priceData.parkComboInfos.length*2
+                            tr
+                                if index==0
+                                    td.table-tit(rowspan=size)=item.modelName
+
+                            td.tl
+                                span.tit=item.aliasName
+                                i.look-tkt-pinfo.c-blue 查看详情 >
+                            td
+                                del 门市价：￥#{item.priceShow}
+
+                            td
+                                span.price.c-red ￥#{item.currentPrice}
+                            td
+                                span.btn-box
+                                    a.btn.order-btn.blue-bgcf(href=item.enabled === 'T' ? '/order/' + module + '/' + item.rateCode + '?parkId=' + item.parkId : 'javascript:;' class=item.enabled === 'T' ? '' : 'gray_btn') 预订
+
+                            tr
+                                td.tkt-pinfo(colspan='5')
+                                    .tkt-pinfo-con!=item.modelExplain
+                                    .up-btn.c-blue 收起∧
+
+
+mixin hoteltype(data)
+    #px.typelist.mb10.detail-module
+        .hotel-search
+            .input-box
+                input.beginDate(type='text', value=data.beginDate, readonly='true')
+                span.tit 入住
+            span.txt -
+            .input-box
+                input.endDate(type='text', value=data.endDate, readonly='true')
+                span.tit 退房
+            span.txt
+                | 共
+                em 1
+                | 晚
+            input.beginhidden(type='hidden', name='', value=data.beginDate)
+            input.endhidden(type='hidden', name='', value=data.endDate)
+            a.change-time.blue-bg-down.inline(href='javascript:;') 修改日期
+            #calendar.detail-calender.hotel-calendar
+        .item-tkt.item-typelist
+            table
+                thead
+                    th 房型名称
+                    th 床型
+                    th 门市价
+                    th 优惠价
+                    th 订票
+                tbody
+

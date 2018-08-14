@@ -1,0 +1,47 @@
+extends layout
+
+block stylesheets
+    link(rel="stylesheet", href="/stylesheets/login.css")
+block javascripts
+    script(type='text/javascript', src='/javascripts/validate/jquery.validate.min.js')
+    script(type='text/javascript', src='/javascripts/validate/messages_zh.min.js')
+    script(type='text/javascript', src='/javascripts/validate/additional-methods.js')
+    script(type='text/javascript', src='/javascripts/login.js')
+block content
+    include ./common/header
+    +header()
+    .ret-info-box
+        .ret-info-com
+            .ret-info-title
+                span 注册
+            .ret-info-triangle
+            input#changeEnter(type='hidden', value='3')
+            form#mobileregisterform
+                #phoneverification.pt40
+                    .ret-pwdinfo.clearfix
+                        strong 手机号码：
+                        .form-panel
+                            input#loginNameMobileRan.text.w200.fl(type='text', name='loginName', placeholder='请输入手机号')
+                            label#loginusernameRan.error(style='display: none;', for='') 输入的手机号不正确
+                    .ret-pwdinfo
+                        strong 设置密码：
+                        .form-panel.clearfix
+                            input#loginPass.text.w200.fl(type='password', name='loginPass', placeholder='请输入密码',onpaste="return false")
+                    .ret-pwdinfo
+                        strong 确认密码：
+                        .form-panel.clearfix
+                            input#rePassword.text.w200.fl(type='password', name='rePassword', placeholder='请确认密码',onpaste="return false")
+                    .ret-pwdinfo.clearfix
+                        strong 手机验证码：
+                        .form-panel.clearfix.reg-yzmbox
+                            input#checkCodePmMobile.text.fl.w90(type='text', name='checkCode', placeholder='手机验证码')
+                            input#btn-dcode.btn-dcode.blue-bgcf(type='button', href='javascript:;', value='获取验证码')
+                    .ret-pwdinfo.reg-xy-box
+                        strong  
+                        input#isChecked(type='checkbox', name='isChecked', checked='')
+                        span
+                            | 同意
+                            a(href='#') 黄山会员协议
+                    .ret-info-progress.reg-btn-box
+                        a#register.btn-sub.blue-bg-down 注册
+    include ./common/footer

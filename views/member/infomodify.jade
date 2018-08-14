@@ -1,0 +1,110 @@
+extends ../layout
+
+block stylesheets
+	link(rel="stylesheet", href="/stylesheets/member.css")
+block javascripts
+	script(type='text/javascript', src='/javascripts/validate/jquery.validate.min.js')
+	script(type='text/javascript', src='/javascripts/validate/messages_zh.min.js')
+	script(type='text/javascript', src='/javascripts/validate/additional-methods.js')
+	script(src='/javascripts/distpicker.data.js')
+	script(src='/javascripts/distpicker.js')
+	script(type='text/javascript', src='/javascripts/member.js')
+	script.
+		var buyerId = '#{userinfo.id}';
+block content
+	include ../common/header
+	+header(1)
+	include common/leftNav
+	.cur-location
+		a.locat-home(href='/') 首页
+		|  >
+		span 我的信息
+	.member-module
+		+leftNav("11")
+		.member-content.be
+			.content-title 编辑个人信息
+				span 请填写如下个人信息，
+					em *
+					| 为必填项。
+			.content.info-detail
+				form#InfoModify
+					.dot-title
+						i 1
+						| 个人信息
+					.m
+						.label-set
+							label
+								i.current
+								| 真实姓名：
+							.input-box
+								input(type="text" name="realName",value=data[0].data.realName).big-input
+						.label-set
+							label
+								i.current
+								| 性别：
+							.input-box
+								//input(type="text").sex-input
+								select.card-type(name='sex')
+									option(value='X',selected=data[0].data.sex=='X'?true:false) 男
+									option(value='Y',selected=data[0].data.sex=='Y'?true:false) 女
+
+						.label-set
+							label
+								i.current
+								| 手机号码：
+							.input-box
+								input(type="text" name="mobile",value=data[0].data.mobile).big-input
+						.label-set.address
+							label
+								i.current
+								| 联系地址：
+							.input-box
+								div(data-toggle='distpicker')
+									#distpicker1
+										select#province4.form-control
+										select#city4.form-control
+										input(type="text" name="addr" placeholder="区/县/街道/门牌号",value=data[0].data.addr)
+									input(type='hidden',name='areaCode',value='',class='areaCode')
+						.label-set
+							label
+								i.current
+								| 邮编：
+							.input-box
+								input(type="text" name="post",value=data[0].data.post).big-input
+						.label-set
+							label
+								i.current
+								| Email：
+							.input-box
+								input(type="text" name="email",value=data[0].data.email).big-input
+					.dot-title
+						i 2
+						| 证件信息
+					.card-box
+						.label-set
+							label
+								i.current
+								| 证件类型：
+							.input-box
+								select(name="").card-type
+									option 身份证
+						.label-set
+							label
+								i.current
+								| 证件号码：
+							.input-box
+								input(type="text" name="idcard",value=data[0].data.idcard)
+						//.label-set
+						//	label
+						//		i.current
+						//		| 有效期：
+						//	.input-box
+						//		input(type="text")
+					.info-detail-btn
+						a#SaveBtn.save-btn 保存
+						a(href="javascript:window.history.back()") 放弃
+	include ../common/footer
+	script.
+		$(function () {
+			$("#distpicker1").distpicker({province: '浙江省',city: '杭州市'});
+		});
