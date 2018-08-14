@@ -1,0 +1,62 @@
+﻿/*css reset*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, caption,input{margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-style:inherit; font-family:inherit;  vertical-align:baseline;}
+ 
+body{ font-family:Arial,"Microsoft YaHei"; font-size:12px;}
+ol, ul{ list-style:none}
+table{ border-collapse: collapse;}
+caption, th, td{ font-weight:normal}
+blockquote:before, blockquote:after,  q:before, q:after{ content:''}
+blockquote, q{quotes:""""}
+a,a:hover{color:#333;text-decoration:none;}
+img{ border:0;margin: 0}
+i {font-style: normal}
+.cb{ clear:both; height:0; line-height:0; font-size:0;  }
+s{font-style: normal;}
+
+/* 边距*/
+.m0{ margin:0;}
+.mb10{
+    margin-bottom: 10px;}
+
+.mb15{
+    margin-bottom: 15px;}
+
+.mb20{ margin-bottom:20px;}
+.mb30{ margin-bottom: 30px;}
+.mb40{ margin-bottom:40px;}
+.ml20{ margin-left:20px;}
+.ml50{
+    margin-left: 50px;}
+.mr20{ margin-right: 20px;}
+.mr70{ margin-right: 70px;}
+
+/* 文字颜色*/
+.c3{ color:#333;}
+.c6{ color:#666;}
+.c9{ color:#999;}
+.cc {color:#ccc;}
+.cf{ color:#fff;}
+.c-blue{ color: #1d9add;}
+.c-f63{ color: #f63;}
+.c-f66{ color: #f66;}
+.c-f6 {
+    color: #f66
+}
+.c-9 {
+    color: #999
+}
+.c-f93{ color: #ff9933;}
+.c-red {color:red;}
+
+
+.clearfix:after{ content:"."; display:block; height:0; clear:both; visibility:hidden; font-size:0; line-height:0;}
+.clearfix{ display:inline-block;}
+*html .clearfix{ height:1%;}
+.clearfix{ display:block;}
+
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
