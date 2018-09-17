@@ -30,8 +30,6 @@ app.use(session({
     saveUninitialized: false,
     store: new RedisStore({
         host: "192.168.200.50",//测试
-        // host: "sendinfo.redis.com",
-        //pass:"sendinfo",
         port: 6379,
         ttl: 30 * 60 // 过期时间
     }),
